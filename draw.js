@@ -19,8 +19,10 @@ var A = [];
 
 function onMouseDown(event) {
   // If we produced a path before, deselect it:
+
   if (path) {
-    path.selected = false;
+    path.remove();
+    // path.selected = false;
   }
 
   // Create a new path and set its stroke color to black:
@@ -54,16 +56,18 @@ var HEIGHT = canvas.height;
 
 // Function, ideal defined by user, that returns value of boundary condition
 gOfT = function (time) {
-  var theta = 2*Math.PI*time;
-  return 2 + Math.sin(3*theta);
-}
+  var theta = 2 * Math.PI * time;
+  return 2 + Math.sin(3 * theta);
+  // return 1;
+};
 
 // Evaluates g(time) at the nearest point on boundary to x,y parameturized by time in [0,1]
 gOfXY = function (x, y) {
+  // return 1;
   var pt = new paper.Point(x, y);
   var time = path.getNearestLocation(pt).time; // value between 0 and 1
   return gOfT(time);
-}
+};
 
 shortestDistanceToBoundary = function (x, y) {
   var pt = new paper.Point(x, y);
@@ -105,7 +109,7 @@ sampleFAtPoint = function (x, y) {
       return 0; // if it's at the boundary, return0
     } else {
       //console.log("Boundary value is ", gOfXY(x,y));
-      return gOfXY(x,y); // return boundary value g(x,y)
+      return gOfXY(x, y); // return boundary value g(x,y)
     }
   } else {
     var angle = 2 * Math.PI * Math.random();
@@ -149,7 +153,7 @@ sampleFAtPoint = function (x, y) {
 // When the mouse is released, we simplify the path:
 function onMouseUp(event) {
   // When the mouse is released, simplify it:
-  var splineTolerance=25;
+  var splineTolerance = 25;
   path.simplify(splineTolerance);
   getDistanceMatrix();
   // soln = solveLaplaceOneIter();

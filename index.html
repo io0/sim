@@ -9,14 +9,16 @@
     ></script>
  -->
     </script>
-    <canvas id="canvas" resize  width="100" height="100" style="width: 100px; height: 100px; background-color: red;"></canvas>
-    <div id="ThreeJS"></div>
+    <div style="padding: 20px;">
+    <canvas id="canvas" resize  width="100" height="100" style="width: 100px; height: 100px; background-color: rgba(255, 255, 255, 0.3);"></canvas>
+  </div>
+    <div id="ThreeJS" style="position:absolute; top:0; right:0; left: 120px;"></div>
 
 <!-- <head>
     <h1>Canvas Papertest</h1> -->
 <!-- Load the Paper.js library -->
 <script type="text/javascript" src="./paper/dist/paper-full.js"></script>
-<link rel="stylesheet" href="style.css" /> -->
+<link rel="stylesheet" href="style.css" />
 <!-- Define inlined PaperScript associate it with myCanvas -->
 <script type="text/paperscript" src="draw.js" canvas="canvas"></script>
 
@@ -30,7 +32,6 @@
 
 <script type="module" src="./attempt.js""></script>
   </body>
-  HELLO
 </html>
 
 <!-- </head>

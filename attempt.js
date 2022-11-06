@@ -6,16 +6,20 @@ import { ParametricGeometries } from "https://unpkg.com/three@0.146.0/examples/j
 // import { OrbitControls } from "https://unpkg.com/three@<version>/examples/jsm/controls/OrbitControls.js";
 
 import { ArcballControls } from "https://unpkg.com/three@0.146.0/examples/jsm/controls/ArcballControls.js";
+import { FirstPersonControls } from "https://unpkg.com/three@0.146.0/examples/jsm/controls/FirstPersonControls.js";
 
 var renderer;
 var scene;
 var camera;
 var graphGeometry;
+var controls;
+var arccontrols;
+var shouldComputeF = false;
 var canv = document.getElementById("canvas");
 console.log(canv.width);
 console.log(canv.height);
 // Define a bunch of glob vars
-var numSlices = 20, // For both x and y, square grid
+var numSlices = 40, // For both x and y, square grid
   dim = numSlices + 1,
   xMin = -10,
   xMax = 10,
@@ -30,6 +34,7 @@ var numSlices = 20, // For both x and y, square grid
 //zRange = zMax - zMin;
 
 var id;
+const clock = new THREE.Clock();
 
 function animate() {
   id = requestAnimationFrame(animate);
@@ -43,26 +48,30 @@ function updateMeshVertex(i, j, z) {
   vertices[index] = z;
 }
 function render() {
-  iters++; // global
-  for (let i = 0; i < dim; i++) {
-    for (let j = 0; j < dim; j++) {
-      let x = i * xInterval;
-      let y = j * yInterval;
-      // console.log(x, y);
-      // if (withinBound(x, y)) {
-      // if (x != 0 || y != 0) {
-      const result = sampleFAtPoint(x, y);
-      // console.log(result, x, y);
-      let z = updateAndReturnAverage(i, j, result);
-      updateMeshVertex(i, j, 7 * z); // temp scaling factor multiplying z
-      // }
-      // }
+  if (shouldComputeF) {
+    console.log(shouldComputeF);
+    iters++; // global
+    for (let i = 0; i < dim; i++) {
+      for (let j = 0; j < dim; j++) {
+        let x = i * xInterval;
+        let y = j * yInterval;
+        // console.log(x, y);
+        // if (withinBound(x, y)) {
+        // if (x != 0 || y != 0) {
+        const result = sampleFAtPoint(x, y);
+        // console.log(result, x, y);
+        let z = updateAndReturnAverage(i, j, result);
+        updateMeshVertex(i, j, 7 * z); // temp scaling factor multiplying z
+        // }
+        // }
+      }
     }
+    // updateVertices(graphMesh.geometry);
+    graphMesh.geometry.attributes.position.needsUpdate = true;
+    graphMesh.geometry.computeVertexNormals();
+    graphMesh.geometry.normalsNeedUpdate = true;
   }
-  // updateVertices(graphMesh.geometry);
-  graphMesh.geometry.attributes.position.needsUpdate = true;
-  graphMesh.geometry.computeVertexNormals();
-  graphMesh.geometry.normalsNeedUpdate = true;
+  controls.update(clock.getDelta());
   // graphMesh.geometry.verticesNeedUpdate = true;
   renderer.render(scene, camera);
 }
@@ -89,22 +98,22 @@ function init() {
     1000
   );
   // position and point the camera to the center
-  camera.position.x = 15;
-  camera.position.y = 16;
-  camera.position.z = 13;
+  camera.position.x = 20;
+  camera.position.y = 21;
+  camera.position.z = 5;
   camera.lookAt(scene.position);
 
   // create a renderer, set the background color and size
   renderer = new THREE.WebGLRenderer();
-  renderer.setClearColor(0x000000, 0.5);
+  renderer.setClearColor(0xbdc4ff);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  // scene.fog = new THREE.Fog(0x000000, 0.1, 5);
 
-  const controls = new ArcballControls(camera, renderer.domElement, scene);
+  const near = 0;
+  const far = 40;
+  const color = "red";
 
-  controls.addEventListener("change", function () {
-    renderer.render(scene, camera);
-  });
-
+  // scene.fog = new THREE.FogExp2(0xefd1b5, 0.0025);
   // add the output of the renderer to the html element
   const container = document.getElementById("ThreeJS");
   container.appendChild(renderer.domElement);
@@ -112,6 +121,21 @@ function init() {
   createGraph();
   // drawMesh();
   // call the render function
+
+  controls = new FirstPersonControls(camera, renderer.domElement, scene);
+  // controls.activeLook = false;
+  controls.movementSpeed = 0.01;
+  controls.lookSpeed = 0.002;
+  controls.constrainVertical = true;
+
+  const arccontrols = new ArcballControls(camera, renderer.domElement, scene);
+
+  arccontrols.addEventListener("change", function () {
+    renderer.render(scene, camera);
+  });
+  arccontrols.setGizmosVisible(false);
+  // controls.verticalMax = (1 * Math.PI) / 1;
+  // controls.verticalMin = Math.PI / 2;
   renderer.render(scene, camera);
   animate();
 }
@@ -119,9 +143,12 @@ function init() {
 let graphMesh;
 let iters = 0;
 const averages = {};
+const movingAverageDecay = 0.995;
 function updateAndReturnAverage(i, j, val) {
   if (averages[[i, j]]) {
-    averages[[i, j]] = (averages[[i, j]] * (iters - 1)) / iters + val / iters;
+    // averages[[i, j]] = (averages[[i, j]] * (iters - 1)) / iters + val / iters;
+    averages[[i, j]] =
+      averages[[i, j]] * movingAverageDecay + val * (1 - movingAverageDecay);
   } else {
     averages[[i, j]] = val;
   }
@@ -180,8 +207,12 @@ function createGraph() {
   // scene.add(klein);
   // updateVertices(graphGeometry);
 }
+
+window.onload = init;
 window.onmouseup = () => {
-  if (!scene) {
-    init();
-  }
+  // controls.addEventListener("change", function () {
+  //   renderer.render(scene, camera);
+  // });
+  shouldComputeF = true;
+  console.log({ shouldComputeF });
 };
