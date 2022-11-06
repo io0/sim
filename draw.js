@@ -1,10 +1,21 @@
 var path;
+var A = [];
 
 // var circle = new paper.Path.Circle({
 //   center: view.center,
 //   radius: 3,
 //   fillColor: "red",
 // });
+
+//// The curve parameterised boundary value
+//function boundaryValue(t) {
+//  return 2 + Math.sin(t);
+//}
+//
+// Get the boundary value function evaluated at the closeste point on the bd to x,y
+//function g(x, y, path) {
+//  let t = path.getNearestLocation(new Point(x, y)).time;
+//}
 
 function onMouseDown(event) {
   // If we produced a path before, deselect it:
@@ -33,13 +44,26 @@ function onMouseDrag(event) {
 
 // run when document loads
 // window.addEventListener("load", (event) => {
-var EPSILON = 1e-3;
+var EPSILON = 1.9;
 var canvas = document.getElementById("canvas");
 var WIDTH = canvas.width;
 var HEIGHT = canvas.height;
 
 // const t = (x, y) => Math.atan(y / x); // turn x,y to t, which is indexes a curve
 // const g = (x, y) => 1; // Math.sin(t(x, y)); // f = g on the boundary
+
+// Function, ideal defined by user, that returns value of boundary condition
+gOfT = function (time) {
+  var theta = 2*Math.PI*time;
+  return 2 + Math.sin(3*theta);
+}
+
+// Evaluates g(time) at the nearest point on boundary to x,y parameturized by time in [0,1]
+gOfXY = function (x, y) {
+  var pt = new paper.Point(x, y);
+  var time = path.getNearestLocation(pt).time; // value between 0 and 1
+  return gOfT(time);
+}
 
 shortestDistanceToBoundary = function (x, y) {
   var pt = new paper.Point(x, y);
@@ -48,33 +72,46 @@ shortestDistanceToBoundary = function (x, y) {
   return Math.min(pt.getDistance(nearestPt), x, y, WIDTH - x, HEIGHT - y);
 };
 
+getDistanceMatrix = function () {
+  for (var i = 0; i < WIDTH; i++) {
+    A[i] = [];
+  }
+
+  for (var x = 0; x < WIDTH; x++) {
+    for (var y = 0; y < HEIGHT; y++) {
+      A[x][y] = shortestDistanceToBoundary(x, y);
+    }
+  }
+};
+
 isAtBoundary = function (r) {
   return r < EPSILON;
 };
 
-sampleFAtPoint = function (x, y, i) {
-  var r = shortestDistanceToBoundary(x, y); // Find the distance to the boundary
+sampleFAtPoint = function (x, y) {
+  var r = A[Math.floor(x)][Math.floor(y)]; // var r = shortestDistanceToBoundary(x, y); // Find the distance to the boundary
   // console.log(r);
   // circle.position = new paper.Point(x, y);
+  // console.log(r);
   if (isAtBoundary(r)) {
     // TODO: Can change this to more complicated g.
     // here, g = 1 on the path, 0 on the box
-    console.log(i);
     if (
       x < EPSILON ||
       y < EPSILON ||
       x > WIDTH - EPSILON ||
       y > HEIGHT - EPSILON
     ) {
-      return 0;
+      return 0; // if it's at the boundary, return0
     } else {
-      return 1;
+      //console.log("Boundary value is ", gOfXY(x,y));
+      return gOfXY(x,y); // return boundary value g(x,y)
     }
   } else {
     var angle = 2 * Math.PI * Math.random();
-    var newX = x + r * Math.cos(angle);
-    var newY = y + r * Math.sin(angle);
-    return sampleFAtPoint(newX, newY, i + 1);
+    var newX = Math.floor(x + r * Math.cos(angle));
+    var newY = Math.floor(y + r * Math.sin(angle));
+    return sampleFAtPoint(newX, newY);
   }
 };
 
@@ -94,24 +131,27 @@ sampleFAtPoint = function (x, y, i) {
 //   };
 // };
 
-solveLaplaceOneIter = function () {
-  var soln = {};
-  for (var x = 0; x < WIDTH; x++) {
-    for (var y = 0; y < HEIGHT; y++) {
-      var point = sampleFAtPoint(x, y, 0);
-      soln[[x, y]] = point;
-    }
-    if (x % 10 == 0) {
-      console.log(x);
-    }
-  }
-  return soln;
-};
+// solveLaplaceOneIter = function () {
+//   var soln = {};
+//   var point;
+//   for (var x = 0; x < WIDTH; x++) {
+//     for (var y = 0; y < HEIGHT; y++) {
+//       point = sampleFAtPoint(x, y);
+//       soln[[x, y]] = point;
+//     }
+//     if (x % 10 == 0) {
+//       console.log(x);
+//     }
+//   }
+//   return soln;
+// };
 
 // When the mouse is released, we simplify the path:
 function onMouseUp(event) {
   // When the mouse is released, simplify it:
-  path.simplify(10);
-  soln = solveLaplaceOneIter();
-  console.log(soln);
+  var splineTolerance=25;
+  path.simplify(splineTolerance);
+  getDistanceMatrix();
+  // soln = solveLaplaceOneIter();
+  // console.log(soln);
 }

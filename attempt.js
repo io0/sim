@@ -11,18 +11,20 @@ var renderer;
 var scene;
 var camera;
 var graphGeometry;
-
+var canv = document.getElementById("canvas");
+console.log(canv.width);
+console.log(canv.height);
 // Define a bunch of glob vars
-var numSlices = 50, // For both x and y, square grid
+var numSlices = 20, // For both x and y, square grid
   dim = numSlices + 1,
   xMin = -10,
   xMax = 10,
   xRange = xMax - xMin,
-  xInterval = xRange / dim, // is it dim or numSlices?
+  xInterval = canv.width / dim, // is it dim or numSlices?
   yMin = -10,
   yMax = 10,
   yRange = yMax - yMin,
-  yInterval = yRange / dim; // check this
+  yInterval = canv.height / dim; // check this
 //zMin = -10,
 //zMax = 10,
 //zRange = zMax - zMin;
@@ -44,16 +46,17 @@ function render() {
   iters++; // global
   for (let i = 0; i < dim; i++) {
     for (let j = 0; j < dim; j++) {
-      let x = xMin + i * xInterval;
-      let y = yMin + j * yInterval;
-      if (withinBound(x, y)) {
-        if (x != 0 || y != 0) {
-          const result = sampleFAtPoint(x, y);
-          // console.log(result, x, y);
-          let z = updateAndReturnAverage(i, j, result);
-          updateMeshVertex(i, j, 7 * z); // temp scaling factor multiplying z
-        }
-      }
+      let x = i * xInterval;
+      let y = j * yInterval;
+      // console.log(x, y);
+      // if (withinBound(x, y)) {
+      // if (x != 0 || y != 0) {
+      const result = sampleFAtPoint(x, y);
+      // console.log(result, x, y);
+      let z = updateAndReturnAverage(i, j, result);
+      updateMeshVertex(i, j, 7 * z); // temp scaling factor multiplying z
+      // }
+      // }
     }
   }
   // updateVertices(graphMesh.geometry);
@@ -67,12 +70,12 @@ function render() {
 var material = new THREE.MeshNormalMaterial({
   side: THREE.DoubleSide,
 });
-function withinBound(x, y) {
-  if (x ** 2 + y ** 2 >= R ** 2) {
-    return false;
-  }
-  return true;
-}
+// function withinBound(x, y) {
+//   if (x ** 2 + y ** 2 >= R ** 2) {
+//     return false;
+//   }
+//   return true;
+// }
 
 function init() {
   // create a scene, that will hold all our elements
@@ -142,17 +145,18 @@ function createGraph() {
     let y = yRange * y_ + yMin;
     // var z = Math.cos(x_);
     var z = 0;
-    if (withinBound(x, y)) {
-      const result = sampleFAtPoint(x, y);
-      z = result;
-    }
+    // if (withinBound(x, y)) {
+    // const result = 0; // sampleFAtPoint(x, y);
+    // console.log(result, x, y);
+    // z = result;
+    // }
     // if (isNaN(z)) return new THREE.Vector3(0, 0, 0); // TODO: better fix
     target.set(x, y, z);
   };
 
   // true => sensible image tile repeat...
   graphGeometry = new ParametricGeometry(meshFunction, numSlices, numSlices);
-  console.log(graphGeometry.attributes);
+  // console.log(graphGeometry.attributes);
   // material choices: vertexColorMaterial, wireMaterial , normMaterial , shadeMaterial
 
   // if (graphMesh) {
@@ -176,4 +180,8 @@ function createGraph() {
   // scene.add(klein);
   // updateVertices(graphGeometry);
 }
-window.onload = init;
+window.onmouseup = () => {
+  if (!scene) {
+    init();
+  }
+};
