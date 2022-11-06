@@ -8,6 +8,15 @@ import { ParametricGeometries } from "https://unpkg.com/three@0.146.0/examples/j
 import { ArcballControls } from "https://unpkg.com/three@0.146.0/examples/jsm/controls/ArcballControls.js";
 import { FirstPersonControls } from "https://unpkg.com/three@0.146.0/examples/jsm/controls/FirstPersonControls.js";
 
+
+// ------------ User Input ----------
+var gString;
+function setGString(text) {
+  gString=text;
+}
+
+// ----------------- Render object stuff -------------------
+
 var renderer;
 var scene;
 var camera;
@@ -19,7 +28,7 @@ var canv = document.getElementById("canvas");
 console.log(canv.width);
 console.log(canv.height);
 // Define a bunch of glob vars
-var numSlices = 40, // For both x and y, square grid
+var numSlices = 55, // For both x and y, square grid
   dim = numSlices + 1,
   xMin = -10,
   xMax = 10,
@@ -86,6 +95,7 @@ var material = new THREE.MeshNormalMaterial({
 //   return true;
 // }
 
+
 function init() {
   // create a scene, that will hold all our elements
   // such as objects, cameras and lights.
@@ -119,6 +129,7 @@ function init() {
   container.appendChild(renderer.domElement);
 
   createGraph();
+
   // drawMesh();
   // call the render function
 
