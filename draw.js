@@ -1,4 +1,5 @@
 var path;
+var A = [];
 
 // var circle = new paper.Path.Circle({
 //   center: view.center,
@@ -43,7 +44,7 @@ function onMouseDrag(event) {
 
 // run when document loads
 // window.addEventListener("load", (event) => {
-var EPSILON = 1e-4;
+var EPSILON = 1.9;
 var canvas = document.getElementById("canvas");
 var WIDTH = canvas.width;
 var HEIGHT = canvas.height;
@@ -71,14 +72,27 @@ shortestDistanceToBoundary = function (x, y) {
   return Math.min(pt.getDistance(nearestPt), x, y, WIDTH - x, HEIGHT - y);
 };
 
+getDistanceMatrix = function () {
+  for (var i = 0; i < WIDTH; i++) {
+    A[i] = [];
+  }
+
+  for (var x = 0; x < WIDTH; x++) {
+    for (var y = 0; y < HEIGHT; y++) {
+      A[x][y] = shortestDistanceToBoundary(x, y);
+    }
+  }
+};
+
 isAtBoundary = function (r) {
   return r < EPSILON;
 };
 
 sampleFAtPoint = function (x, y) {
-  var r = shortestDistanceToBoundary(x, y); // Find the distance to the boundary
+  var r = A[Math.floor(x)][Math.floor(y)]; // var r = shortestDistanceToBoundary(x, y); // Find the distance to the boundary
   // console.log(r);
   // circle.position = new paper.Point(x, y);
+  // console.log(r);
   if (isAtBoundary(r)) {
     // TODO: Can change this to more complicated g.
     // here, g = 1 on the path, 0 on the box
@@ -95,8 +109,8 @@ sampleFAtPoint = function (x, y) {
     }
   } else {
     var angle = 2 * Math.PI * Math.random();
-    var newX = x + r * Math.cos(angle);
-    var newY = y + r * Math.sin(angle);
+    var newX = Math.floor(x + r * Math.cos(angle));
+    var newY = Math.floor(y + r * Math.sin(angle));
     return sampleFAtPoint(newX, newY);
   }
 };
@@ -117,24 +131,26 @@ sampleFAtPoint = function (x, y) {
 //   };
 // };
 
-solveLaplaceOneIter = function () {
-  var soln = {};
-  for (var x = 0; x < WIDTH; x++) {
-    for (var y = 0; y < HEIGHT; y++) {
-      var point = sampleFAtPoint(x, y, 0);
-      soln[[x, y]] = point;
-    }
-    if (x % 10 == 0) {
-      //console.log(x);
-    }
-  }
-  return soln;
-};
+// solveLaplaceOneIter = function () {
+//   var soln = {};
+//   var point;
+//   for (var x = 0; x < WIDTH; x++) {
+//     for (var y = 0; y < HEIGHT; y++) {
+//       point = sampleFAtPoint(x, y);
+//       soln[[x, y]] = point;
+//     }
+//     if (x % 10 == 0) {
+//       console.log(x);
+//     }
+//   }
+//   return soln;
+// };
 
 // When the mouse is released, we simplify the path:
 function onMouseUp(event) {
   // When the mouse is released, simplify it:
   path.simplify(10);
+  getDistanceMatrix();
   // soln = solveLaplaceOneIter();
   // console.log(soln);
 }
