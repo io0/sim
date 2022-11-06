@@ -111,8 +111,8 @@ solveLaplaceOneIter = function () {
 // When the mouse is released, we simplify the path:
 function onMouseUp(event) {
   // When the mouse is released, simplify it:
-  path.closed = true;
   path.simplify(10);
+  path.closed = true;
   path.fillColor = new Color(1, 0, 0);
   // soln = solveLaplaceOneIter();
   // console.log(soln);
