@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head title="The laplace thing"></head>
+  <head title="Laplacian Occasion"></head>
   <body>
     <!-- <script type="text/javascript" src="solver.js"></script>
     <script
@@ -31,6 +31,27 @@
 </script>
 
 <script type="module" src="./attempt.js""></script>
+<div id="safariNote">
+  Unfortunately, Laplacian Occasion doesn't work on Safari. Try Chrome instead.
+</div>
+<script>
+  // check if browser is safari
+function isSafari() {
+  return (
+    navigator.vendor &&
+    navigator.vendor.indexOf("Apple") > -1 &&
+    navigator.userAgent &&
+    navigator.userAgent.indexOf("CriOS") == -1 &&
+    navigator.userAgent.indexOf("FxiOS") == -1
+  );
+}
+
+// run on load
+  if (isSafari()) {
+    document.getElementById("safariNote").style.display = "block";
+  }
+  console.log("HII");
+  </script>
   </body>
 </html>
 
