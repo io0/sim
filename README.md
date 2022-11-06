@@ -44,6 +44,8 @@ The solver we are interested in is called the Walk-On-Spheres algorithm. It's a 
 
 Another type of solver inspired by ray-tracing algorithms, from the graphics industry, may be able to help scientists solve PDEs more efficiently. These are Monte Carlo methods.
 
+## Bloopers
+![Screen_Recording_2022-11-06_at_1 39 51_AM](https://user-images.githubusercontent.com/25064071/200192476-d9b12dc3-301e-457e-8989-380665d9d1c3.gif)
 
 ## Wishlist
 
