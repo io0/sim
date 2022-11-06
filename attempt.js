@@ -15,7 +15,7 @@ var canv = document.getElementById("canvas");
 console.log(canv.width);
 console.log(canv.height);
 // Define a bunch of glob vars
-var numSlices = 15, // For both x and y, square grid
+var numSlices = 20, // For both x and y, square grid
   dim = numSlices + 1,
   xMin = -10,
   xMax = 10,
@@ -180,4 +180,8 @@ function createGraph() {
   // scene.add(klein);
   // updateVertices(graphGeometry);
 }
-window.onmouseup = init;
+window.onmouseup = () => {
+  if (!scene) {
+    init();
+  }
+};
