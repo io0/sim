@@ -1,4 +1,6 @@
-# Laplace's equation Walk on Spheres Solver
+# A Laplacian Occasion
+
+Link to [Video](https://www.youtube.com/watch?v=UYc4qoM6iBo), and [website](https://sage-arithmetic-1997b4.netlify.app/)
 
 Laplace's equation is ubiquitous in physics. It turns out you can solve Laplace's equation and other partial differential equations by sampling random walks! 
 
@@ -29,14 +31,6 @@ We can speed up the random walks by reccursively sampling random points on a sph
 Once we reach a distance under $\epsilon$ of our boundary, we terminate the random walk, sample the boundary value function at the closest point, and use that value to update our expected value of $f(x)$.
 
 We do this for each point in our domain. 
-
-## Wishlist
-
-Implement a Poisson solver too.
-
-## Refs
-
-
 
 
 ## Wishlist
