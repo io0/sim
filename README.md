@@ -4,13 +4,6 @@ Link to [Video](https://www.youtube.com/watch?v=UYc4qoM6iBo), and [website](http
 
 Laplace's equation is ubiquitous in physics. It turns out you can solve Laplace's equation and other partial differential equations by sampling random walks! 
 
-<img width="556" alt="Screen Shot 2022-11-06 at 1 48 48 PM" src="https://user-images.githubusercontent.com/21654151/200189358-e2bc03d6-ae6f-4979-a9b4-8323d72cec47.png">
-
-<img width="496" alt="Screen Shot 2022-11-06 at 1 47 00 PM" src="https://user-images.githubusercontent.com/21654151/200189276-7cd217dc-3692-4545-8682-0251295995d5.png">
-
-<img width="502" alt="Screen Shot 2022-11-06 at 1 47 19 PM" src="https://user-images.githubusercontent.com/21654151/200189294-ca32da19-d20d-4fbd-a5da-774ef3a9e4b1.png">
-
-<img width="497" alt="Screen Shot 2022-11-06 at 1 47 32 PM" src="https://user-images.githubusercontent.com/21654151/200189304-8b7dde91-4982-4cbf-a0f2-2557ef4e5ea1.png">
 
 <img width="494" alt="Screen Shot 2022-11-06 at 1 47 49 PM" src="https://user-images.githubusercontent.com/21654151/200189317-41d81b27-8c22-42a0-a3f6-89e0aefcbd9f.png">
 
