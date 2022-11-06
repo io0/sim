@@ -12,8 +12,10 @@ var scene;
 var camera;
 var graphGeometry;
 var canv = document.getElementById("canvas");
+console.log(canv.width);
+console.log(canv.height);
 // Define a bunch of glob vars
-var numSlices = 20, // For both x and y, square grid
+var numSlices = 15, // For both x and y, square grid
   dim = numSlices + 1,
   xMin = -10,
   xMax = 10,
@@ -45,11 +47,12 @@ function render() {
   for (let i = 0; i < dim; i++) {
     for (let j = 0; j < dim; j++) {
       let x = i * xInterval;
-      let y = yMin + j * yInterval;
+      let y = j * yInterval;
+      // console.log(x, y);
       // if (withinBound(x, y)) {
       // if (x != 0 || y != 0) {
       const result = sampleFAtPoint(x, y);
-      console.log(result, x, y);
+      // console.log(result, x, y);
       let z = updateAndReturnAverage(i, j, result);
       updateMeshVertex(i, j, 7 * z); // temp scaling factor multiplying z
       // }

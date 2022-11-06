@@ -6,6 +6,16 @@ var path;
 //   fillColor: "red",
 // });
 
+//// The curve parameterised boundary value
+//function boundaryValue(t) {
+//  return 2 + Math.sin(t);
+//}
+//
+// Get the boundary value function evaluated at the closeste point on the bd to x,y
+//function g(x, y, path) {
+//  let t = path.getNearestLocation(new Point(x, y)).time;
+//}
+
 function onMouseDown(event) {
   // If we produced a path before, deselect it:
   if (path) {
@@ -33,7 +43,7 @@ function onMouseDrag(event) {
 
 // run when document loads
 // window.addEventListener("load", (event) => {
-var EPSILON = 1e-3;
+var EPSILON = 1e-4;
 var canvas = document.getElementById("canvas");
 var WIDTH = canvas.width;
 var HEIGHT = canvas.height;
@@ -52,21 +62,20 @@ isAtBoundary = function (r) {
   return r < EPSILON;
 };
 
-sampleFAtPoint = function (x, y, i) {
+sampleFAtPoint = function (x, y) {
   var r = shortestDistanceToBoundary(x, y); // Find the distance to the boundary
   // console.log(r);
   // circle.position = new paper.Point(x, y);
   if (isAtBoundary(r)) {
     // TODO: Can change this to more complicated g.
     // here, g = 1 on the path, 0 on the box
-    console.log(i);
     if (
       x < EPSILON ||
       y < EPSILON ||
       x > WIDTH - EPSILON ||
       y > HEIGHT - EPSILON
     ) {
-      return 0;
+      return 0; // if it's at the boundary, return0
     } else {
       return 1;
     }
@@ -74,7 +83,7 @@ sampleFAtPoint = function (x, y, i) {
     var angle = 2 * Math.PI * Math.random();
     var newX = x + r * Math.cos(angle);
     var newY = y + r * Math.sin(angle);
-    return sampleFAtPoint(newX, newY, i + 1);
+    return sampleFAtPoint(newX, newY);
   }
 };
 
@@ -112,6 +121,6 @@ solveLaplaceOneIter = function () {
 function onMouseUp(event) {
   // When the mouse is released, simplify it:
   path.simplify(10);
-  soln = solveLaplaceOneIter();
-  console.log(soln);
+  // soln = solveLaplaceOneIter();
+  // console.log(soln);
 }
