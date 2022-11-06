@@ -1,6 +1,14 @@
+<!DOCTYPE html>
 <html>
-  <head title="The laplace thing"></head>
-  <body></body>
-  <script src="solver.js" type="text/javascript"></script>
-  HELLO
+  <head>
+    <h1>Canvas Papertest</h1>
+    <!-- Load the Paper.js library -->
+    <script type="text/javascript" src="./paper/dist/paper-full.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Define inlined PaperScript associate it with myCanvas -->
+    <script type="text/paperscript" src="draw.js" canvas="canvas"></script>
+  </head>
+  <body>
+    <canvas id="canvas" resize></canvas>
+  </body>
 </html>
