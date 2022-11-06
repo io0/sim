@@ -1,15 +1,31 @@
 import * as THREE from "three";
-import { ParametricGeometry } from "three/examples/jsm/geometries/ParametricGeometry";
-import { ParametricGeometries } from "three/examples/jsm/geometries/ParametricGeometries.js";
+import { ParametricGeometry } from "https://unpkg.com/three@0.146.0/examples/jsm/geometries/ParametricGeometry.js";
+import { ParametricGeometries } from "https://unpkg.com/three@0.146.0/examples/jsm/geometries/ParametricGeometries.js";
 
 // import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+// import { OrbitControls } from "https://unpkg.com/three@<version>/examples/jsm/controls/OrbitControls.js";
 
-import { ArcballControls } from "three/examples/jsm/controls/ArcballControls.js";
+import { ArcballControls } from "https://unpkg.com/three@0.146.0/examples/jsm/controls/ArcballControls.js";
 
 var renderer;
 var scene;
 var camera;
 var graphGeometry;
+
+// Define a bunch of glob vars
+var numSlices = 50, // For both x and y, square grid
+  dim = numSlices + 1,
+  xMin = -10,
+  xMax = 10,
+  xRange = xMax - xMin,
+  xInterval = xRange / dim, // is it dim or numSlices?
+  yMin = -10,
+  yMax = 10,
+  yRange = yMax - yMin,
+  yInterval = yRange / dim; // check this
+//zMin = -10,
+//zMax = 10,
+//zRange = zMax - zMin;
 
 var id;
 
@@ -34,7 +50,7 @@ function render() {
         if (x != 0 || y != 0) {
           const result = sampleFAtPoint(x, y);
           // console.log(result, x, y);
-          z = updateAndReturnAverage(i, j, result);
+          let z = updateAndReturnAverage(i, j, result);
           updateMeshVertex(i, j, 7 * z); // temp scaling factor multiplying z
         }
       }
@@ -96,18 +112,6 @@ function init() {
   renderer.render(scene, camera);
   animate();
 }
-
-// Define a bunch of glob vars
-var numSlices = 50, // For both x and y, square grid
-  dim = numSlices + 1,
-  xMin = -10,
-  xMax = 10,
-  xRange = xMax - xMin,
-  xInterval = xRange / dim; // is it dim or numSlices?
-(yMin = -10), (yMax = 10), (yRange = yMax - yMin), (yInterval = yRange / dim); // check this
-//zMin = -10,
-//zMax = 10,
-//zRange = zMax - zMin;
 
 let graphMesh;
 let iters = 0;
