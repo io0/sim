@@ -28,7 +28,7 @@ Another type of solver inspired by ray-tracing algorithms, from the graphics ind
 ![Walk_on_Spheres_illustration](https://user-images.githubusercontent.com/21654151/200189721-0cadc942-9fe2-4b18-900d-046a65cd1645.jpeg)
 
 
-If $\Omega \subset \R^n$ is a bounded domain with boundary $\partial \Omega$. We enforce dirichelet boundary conditions by specifying the value of $f$ on the boundary. (The user can choose the domain and the this boundary value function!)
+If $\Omega \subset \mathbb R^n$ is a bounded domain with boundary $\partial \Omega$. We enforce dirichelet boundary conditions by specifying the value of $f$ on the boundary. (The user can choose the domain and the this boundary value function!)
 
 Then we exploit Kakutani's principle: the solution to Laplace's equation at some point $x\in\Omega$ is the expected value of the values at the first intersection of a random walk starting at $x$ with the boundary $\partial \Omega$. 
 
