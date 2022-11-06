@@ -26,10 +26,6 @@ function updateMeshVertex(i, j, z) {
 }
 function render() {
   iters++; // global
-  // console.log(averages);
-  // for (let i = 0; i < segments; i++) {
-  //   updateMeshVertex(i, 0, Math.random());
-  // }
   for (let i = 0; i < dim; i++) {
     for (let j = 0; j < dim; j++) {
       let x = xMin + i * xInterval;
@@ -39,30 +35,24 @@ function render() {
           const result = sampleFAtPoint(x, y);
           // console.log(result, x, y);
           z = updateAndReturnAverage(i, j, result);
-          updateMeshVertex(i, j, 10 * z);
+          updateMeshVertex(i, j, 7 * z); // temp scaling factor multiplying z
         }
       }
     }
   }
   // updateVertices(graphMesh.geometry);
   graphMesh.geometry.attributes.position.needsUpdate = true;
-  // graphMesh.geometry.normalsNeedUpdate = true;
+  graphMesh.geometry.computeVertexNormals();
+  graphMesh.geometry.normalsNeedUpdate = true;
   // graphMesh.geometry.verticesNeedUpdate = true;
   renderer.render(scene, camera);
 }
 
-var material = new THREE.MeshNormalMaterial();
+var material = new THREE.MeshNormalMaterial({
+  side: THREE.DoubleSide,
+});
 function withinBound(x, y) {
-  if (x < -5) {
-    return false;
-  }
-  if (x > 5) {
-    return false;
-  }
-  if (y > 5) {
-    return false;
-  }
-  if (y < -5) {
+  if (x ** 2 + y ** 2 >= R ** 2) {
     return false;
   }
   return true;
@@ -107,7 +97,8 @@ function init() {
   animate();
 }
 
-var numSlices = 10, // For both x and y, square grid
+// Define a bunch of glob vars
+var numSlices = 50, // For both x and y, square grid
   dim = numSlices + 1,
   xMin = -10,
   xMax = 10,
@@ -119,27 +110,6 @@ var numSlices = 10, // For both x and y, square grid
 //zRange = zMax - zMin;
 
 let graphMesh;
-
-function drawMesh() {
-  var geometry = new THREE.PlaneGeometry(60, 60, 199, 199);
-  // console.log(geometry.vertices);
-
-  var vertices = geometry.attributes.position.array;
-  // apply height map to vertices of plane
-  for (i = 0, j = 2; i < 199 * 199 * 10; i += 4, j += 3) {
-    vertices[j] = Math.random() * 5;
-  }
-
-  var wireMaterial = new THREE.MeshPhongMaterial({
-    color: 0xdddddd,
-    wireframe: true,
-  });
-
-  var plane = new THREE.Mesh(geometry, wireMaterial);
-  plane.rotation.x = -Math.PI / 2;
-
-  scene.add(plane);
-}
 let iters = 0;
 const averages = {};
 function updateAndReturnAverage(i, j, val) {
@@ -177,12 +147,7 @@ function createGraph() {
   };
 
   // true => sensible image tile repeat...
-  graphGeometry = new ParametricGeometry(
-    meshFunction,
-    numSlices,
-    numSlices,
-    true
-  );
+  graphGeometry = new ParametricGeometry(meshFunction, numSlices, numSlices);
   console.log(graphGeometry.attributes);
   // material choices: vertexColorMaterial, wireMaterial , normMaterial , shadeMaterial
 
