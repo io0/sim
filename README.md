@@ -19,7 +19,7 @@ $$
 <img width="506" alt="image" src="https://user-images.githubusercontent.com/25064071/200190149-ddb9e3f9-8a1a-463b-ab48-7c016dc5a2e0.png">
 
 
-If $\Omega \subset \mathbb R^n$ is a bounded domain with boundary $\partial \Omega$. We enforce dirichelet boundary conditions by specifying the value of $f$ on the boundary. (The user can choose the domain and the this boundary value function!)
+If $\Omega \subset \mathbb R^n$ is a bounded domain with boundary $\partial \Omega$. We enforce dirichelet boundary conditions by specifying the value of $f$ on the boundary. You can draw the domain of the boundary and see resulting changes in the solution! You can also adjust the specific boundary function in the code.
 
 Then we exploit Kakutani's principle: the solution to Laplace's equation at some point $x\in\Omega$ is the expected value of the values at the first intersection of a random walk starting at $x$ with the boundary $\partial \Omega$. 
 
