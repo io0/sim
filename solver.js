@@ -1,8 +1,8 @@
 const R = 10;
-const EPSILON = 1e-3;
+const EPS = 1e-3;
 
 const t = (x, y) => Math.atan(y / x); // turn x,y to t, which is indexes a curve
-const g = (x, y) => Math.sin(t(x, y)); // f = g on the boundary
+const g = (x, y) => Math.sin(1.5 * t(x, y)); // + 0.5 * Math.sin(7.5 * t(x, y)); // f = g on the boundary
 
 const shortestDistanceToBoundary = (x, y) => {
   // assume center of sphere is (0,0)
@@ -11,7 +11,7 @@ const shortestDistanceToBoundary = (x, y) => {
   return R - Math.sqrt(x ** 2 + y ** 2);
 };
 
-const isAtBoundary = (r) => r < EPSILON;
+const isAtBoundary = (r) => r < EPS;
 
 const sampleFAtPoint = (x, y) => {
   const r = shortestDistanceToBoundary(x, y); // Find the distance to the boundary
@@ -43,15 +43,18 @@ const f = (x, y, N) => {
 
 const solveLaplace = () => {
   const soln = {};
-  for (let x = 0; x < R; x++) {
-    for (let y = 0; y < R; y++) {
+  for (let x = -R; x < R; x++) {
+    for (let y = -R; y < R; y++) {
       if (x ** 2 + y ** 2 < R ** 2) {
-        const point = f(x, y, 1000);
-        soln[(x, y)] = point.mean;
+        if (x != 0 || y != 0) {
+          const point = f(x, y, 1);
+          soln[[x, y]] = point.mean;
+        }
       }
     }
   }
   return soln;
 };
 
-soln = solveLaplace();
+// soln = solveLaplace();
+// console.log(soln);
