@@ -71,7 +71,7 @@ function render() {
     graphMesh.geometry.computeVertexNormals();
     graphMesh.geometry.normalsNeedUpdate = true;
   }
-  controls.update(clock.getDelta());
+  // controls.update(clock.getDelta());
   // graphMesh.geometry.verticesNeedUpdate = true;
   renderer.render(scene, camera);
 }
@@ -100,7 +100,7 @@ function init() {
   // position and point the camera to the center
   camera.position.x = 20;
   camera.position.y = 21;
-  camera.position.z = 5;
+  camera.position.z = 30;
   camera.lookAt(scene.position);
 
   // create a renderer, set the background color and size
@@ -143,7 +143,7 @@ function init() {
 let graphMesh;
 let iters = 0;
 const averages = {};
-const movingAverageDecay = 0.995;
+const movingAverageDecay = 0.998;
 function updateAndReturnAverage(i, j, val) {
   if (averages[[i, j]]) {
     // averages[[i, j]] = (averages[[i, j]] * (iters - 1)) / iters + val / iters;

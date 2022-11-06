@@ -57,7 +57,7 @@ var HEIGHT = canvas.height;
 // Function, ideal defined by user, that returns value of boundary condition
 gOfT = function (time) {
   var theta = 2 * Math.PI * time;
-  return 2 + Math.sin(3 * theta);
+  return 0.5 * (2 + Math.sin(3 * theta));
   // return 1;
 };
 
