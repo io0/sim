@@ -5,11 +5,12 @@ Link to [Video](https://www.youtube.com/watch?v=UYc4qoM6iBo), and [website](http
 Laplace's equation is ubiquitous in physics. It turns out you can solve Laplace's equation and other partial differential equations by sampling random walks! 
 
 
-<img width="494" alt="Screen Shot 2022-11-06 at 1 47 49 PM" src="https://user-images.githubusercontent.com/21654151/200189317-41d81b27-8c22-42a0-a3f6-89e0aefcbd9f.png">
-
 $$
 \nabla^2 f = 0
 $$
+
+![furniture_demo2_AdobeExpress (1)](https://user-images.githubusercontent.com/28833859/200190444-6de5d978-d92d-40d6-9eee-6b04518d345b.gif)
+
 
 ## Inspiration
 <img width="444" alt="image" src="https://user-images.githubusercontent.com/25064071/200190084-0a12f008-7ef7-43e3-affc-63df428d9cb3.png">
@@ -46,3 +47,13 @@ Another type of solver inspired by ray-tracing algorithms, from the graphics ind
 Implement a Poisson solver too.
 
 
+## Getting started
+Install `http-server` if you don't already have it.
+```
+npm install -g http-server
+```
+
+Run it!
+```
+http-server
+```
