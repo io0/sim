@@ -51,6 +51,19 @@ var HEIGHT = canvas.height;
 // const t = (x, y) => Math.atan(y / x); // turn x,y to t, which is indexes a curve
 // const g = (x, y) => 1; // Math.sin(t(x, y)); // f = g on the boundary
 
+// Function, ideal defined by user, that returns value of boundary condition
+gOfT = function (time) {
+  var theta = 2*Math.PI*time;
+  return 2 + Math.sin(3*theta);
+}
+
+// Evaluates g(time) at the nearest point on boundary to x,y parameturized by time in [0,1]
+gOfXY = function (x, y) {
+  var pt = new paper.Point(x, y);
+  var time = path.getNearestLocation(pt).time; // value between 0 and 1
+  return gOfT(time);
+}
+
 shortestDistanceToBoundary = function (x, y) {
   var pt = new paper.Point(x, y);
   var nearestPt = path.getNearestPoint(pt);
@@ -77,7 +90,8 @@ sampleFAtPoint = function (x, y) {
     ) {
       return 0; // if it's at the boundary, return0
     } else {
-      return 1;
+      //console.log("Boundary value is ", gOfXY(x,y));
+      return gOfXY(x,y); // return boundary value g(x,y)
     }
   } else {
     var angle = 2 * Math.PI * Math.random();
@@ -111,7 +125,7 @@ solveLaplaceOneIter = function () {
       soln[[x, y]] = point;
     }
     if (x % 10 == 0) {
-      console.log(x);
+      //console.log(x);
     }
   }
   return soln;
