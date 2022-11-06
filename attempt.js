@@ -119,9 +119,12 @@ function init() {
 let graphMesh;
 let iters = 0;
 const averages = {};
+const movingAverageDecay = 0.995;
 function updateAndReturnAverage(i, j, val) {
   if (averages[[i, j]]) {
-    averages[[i, j]] = (averages[[i, j]] * (iters - 1)) / iters + val / iters;
+    // averages[[i, j]] = (averages[[i, j]] * (iters - 1)) / iters + val / iters;
+    averages[[i, j]] =
+      averages[[i, j]] * movingAverageDecay + val * (1 - movingAverageDecay);
   } else {
     averages[[i, j]] = val;
   }
