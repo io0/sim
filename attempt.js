@@ -143,7 +143,7 @@ function init() {
 let graphMesh;
 let iters = 0;
 const averages = {};
-const movingAverageDecay = 0.998;
+const movingAverageDecay = 0.995;
 function updateAndReturnAverage(i, j, val) {
   if (averages[[i, j]]) {
     // averages[[i, j]] = (averages[[i, j]] * (iters - 1)) / iters + val / iters;
