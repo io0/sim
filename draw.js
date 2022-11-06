@@ -149,7 +149,8 @@ sampleFAtPoint = function (x, y) {
 // When the mouse is released, we simplify the path:
 function onMouseUp(event) {
   // When the mouse is released, simplify it:
-  path.simplify(10);
+  var splineTolerance=25;
+  path.simplify(splineTolerance);
   getDistanceMatrix();
   // soln = solveLaplaceOneIter();
   // console.log(soln);
