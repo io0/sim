@@ -16,7 +16,10 @@ $$
 <img width="444" alt="image" src="https://user-images.githubusercontent.com/25064071/200190084-0a12f008-7ef7-43e3-affc-63df428d9cb3.png">
 
 ## Algorithm
-<img width="506" alt="image" src="https://user-images.githubusercontent.com/25064071/200190149-ddb9e3f9-8a1a-463b-ab48-7c016dc5a2e0.png">
+
+![Nov-06-2022 14-49-14](https://user-images.githubusercontent.com/28833859/200191805-f06a3368-2c3b-41f5-88ab-05b887e8885a.gif)
+
+![Nov-06-2022 14-47-32](https://user-images.githubusercontent.com/28833859/200191855-a697da81-55be-49e0-9eaa-b6ad43c63e16.gif)
 
 
 If $\Omega \subset \mathbb R^n$ is a bounded domain with boundary $\partial \Omega$. We enforce dirichelet boundary conditions by specifying the value of $f$ on the boundary. You can draw the domain of the boundary and see resulting changes in the solution! You can also adjust the specific boundary function in the code.
