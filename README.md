@@ -62,3 +62,7 @@ Run it!
 ```
 http-server
 ```
+
+## Refs
+
+[Keenan Crane paper](https://www.cs.cmu.edu/~kmcrane/Projects/VariableCoefficientWoS/VariableCoefficientWoS.pdf)
