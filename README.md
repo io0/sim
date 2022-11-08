@@ -66,3 +66,4 @@ http-server
 ## Refs
 
 [Keenan Crane paper](https://www.cs.cmu.edu/~kmcrane/Projects/VariableCoefficientWoS/VariableCoefficientWoS.pdf)
+[David Rioux & Toshiya Hachisuka paper](https://cs.uwaterloo.ca/~thachisu/mcfluid.pdf)
